@@ -12,7 +12,6 @@ type Tile = {
 
 class TileRepository {
   async readAll() {
-    // Execute the SQL SELECT query to retrieve all tiles from the "tile" table
     const [rows] = await databaseClient.query<Rows>(
       "select * from tile order by coord_y, coord_x",
     );
@@ -22,7 +21,11 @@ class TileRepository {
   }
 
   async readByCoordinates(coordX: number, coordY: number) {
-    // your code here
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from tile where coord_x = ? and coord_y = ?",
+      [coordX, coordY],
+    );
+    return rows as Tile[];
   }
 
   async getRandomIsland() {
